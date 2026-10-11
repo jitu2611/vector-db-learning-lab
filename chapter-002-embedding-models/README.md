@@ -82,14 +82,24 @@ Normalization makes comparison focus on vector direction rather than raw vector 
 5. After normalization, does cosine similarity mainly compare vector size or direction?
    - **Direction.**
 
-## Practical implementation — next
+## Practical implementation
 
-We will build a local script that:
+`embedding_demo.py` embeds similar and unrelated sentences, prints vector dimensions/norms, calculates cosine similarity from scratch, and runs brute-force semantic retrieval without a vector database.
 
-1. loads `all-MiniLM-L6-v2`;
-2. embeds similar and unrelated sentences;
-3. prints embedding dimensions and vector norms;
-4. calculates cosine similarity ourselves;
-5. compares similarity scores and records failure cases.
+```bash
+cd chapter-002-embedding-models
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python embedding_demo.py
+```
+
+The first execution downloads the local `all-MiniLM-L6-v2` model. Expected observations:
+
+- the embedding matrix has shape `(4, 384)`;
+- the two deployment sentences should score more similarly than deployment vs password reset;
+- the production-approval document should rank highly for the release-approval query.
+
+The script deliberately uses brute-force comparison. Chapter 001's ChromaDB example shows how a vector database persists and indexes the same idea at larger scale.
 
 > Chapter 001 introduced the full tokenization → transformer → pooling → vector database pipeline. This chapter examines the embedding model and its output in detail.
